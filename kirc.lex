@@ -4,9 +4,14 @@
 
 int lineno = 0;
 extern YYSTYPE yylval;
+
 %}
 
 %%
+
+"//".*                // Eat up the tasty one line comments
+
+writeln               return WRITELN;
 
 [a-zA-Z][a-zA-Z0-9]*  yylval.string = strdup(yytext); return SYMBOL;
 \"(\\.|[^"])*\"       yylval.string = strdup(yytext); return STRING_LITERAL;
@@ -18,7 +23,8 @@ extern YYSTYPE yylval;
 \)                    return ')';
 
 \n                    lineno++;
-[ \t]+
+[ \t]+                // Ingore whitespace
+
 .			          fprintf(stderr, "[Line: %i]: Unexpected character '%c'\n", lineno, yytext[0]);
 
 %%
