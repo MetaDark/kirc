@@ -1,5 +1,5 @@
 *~
-build/
-lex.yy.c
-y.tab.h
-y.tab.c
+kirc.l.c
+kirc.y.c
+kirc.y.h
+kirc

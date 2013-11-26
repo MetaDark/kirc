@@ -1,20 +1,17 @@
-CFLAGS = -fmax-errors=1
+CFLAGS = #-Wall -g
 
-PROGRAM = kirc
+all: kirc.y.c kirc.l.c
+	gcc -o kirc kirc.l.c kirc.y.c $(CFLAGS)
 
-all: yacc lex
-	mkdir -p build
-	gcc y.tab.c lex.yy.c -o build/$(PROGRAM) $(CFLAGS)
+kirc.y.c:
+	bison -o $@ -d kirc.y
 
-yacc:
-	lex $(PROGRAM).lex
-
-lex:
-	yacc -d $(PROGRAM).y
+kirc.l.c:
+	flex -o $@ kirc.lex
 
 run: all
-	./build/$(PROGRAM)
+	@echo "================================================="
+	@./kirc
 
 clean:
-	rm -f *~ build y.tab.c lex.yy.c
-
+	rm -f kirc.l.c kirc.y.c kirc.y.h kirc

@@ -1,31 +1,12 @@
 %{
 #include <stdio.h>
-#include "y.tab.h"
+#include "kirc.y.h"
 
 extern YYSTYPE yylval;
 %}
 
-%%
-
-[0-9]+ {
-    yylval = atoi(yytext);
-    return NUMBER;
-}
-heat {
-    return TOKHEAT;
-}
-on|off {
-    yylval = !strcmp(yytext, "on");
-    return STATE;
-}
-target {
-    return TOKTARGET;
-}
-temperature {
-    return TOKTEMPERATURE;
-}
-
-\n
-[ \t]+
+out									{ return TOKOUT; }
+({SP}?\"([^"\\\n]|{ES})*\"{WS}*)+	{ return STRING_LITERAL; }
+.									{ yyerror("Illegal character %s", yytext[0]); }
 
 %%

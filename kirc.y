@@ -2,45 +2,34 @@
 #include <stdio.h>
  
 void yyerror(const char *str) {
-    fprintf(stderr, "error: %s\n", str);
+	fprintf(stderr, "error: %s\n", str);
 }
  
 int yywrap() {
-    return 1;
+	return 1;
 } 
   
-main() {
-    yyparse();
-} 
+int main() {
+	yyparse();
+	return 0;
+}
 
 %}
 
-%token NUMBER TOKHEAT STATE TOKTARGET TOKTEMPERATURE
+%token TOKOUT STRING_LITERAL
 
 %%
 
 commands:
-    | commands command
-    ;
+	| commands command
+	;
 
 command:
-    heat_switch
-    |
-    target_set
-    ;
+	cmd_out
+	;
 
-heat_switch:
-    TOKHEAT STATE {
-	if($2) {
-	    printf("\tHeat turned on\n");
-	} else {
-	    printf("\tHeat turned off\n");
+cmd_out:
+	TOKOUT STRING_LITERAL {
+		printf("Complete zone for found\n");
 	}
-    }
-    ;
-
-target_set:
-    TOKTARGET TOKTEMPERATURE NUMBER {
-	printf("\tTemperature set to %d\n", $3);
-    }
-    ;
+	;
