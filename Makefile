@@ -1,12 +1,20 @@
+CFLAGS = -fmax-errors=1
+
 PROGRAM = kirc
 
-all:
+all: yacc lex
+	mkdir -p build
+	gcc y.tab.c lex.yy.c -o build/$(PROGRAM) $(CFLAGS)
+
+yacc:
 	lex $(PROGRAM).lex
+
+lex:
 	yacc -d $(PROGRAM).y
-	gcc -fmax-errors=1 y.tab.c lex.yy.c -o $(PROGRAM)
 
 run: all
-	./$(PROGRAM)
+	./build/$(PROGRAM)
 
 clean:
-	rm -f *~ $(PROGRAM) lex.yy.c y.tab.c y.tab.h
+	rm -f *~ build y.tab.c lex.yy.c
+
