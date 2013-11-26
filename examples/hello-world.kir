@@ -1,0 +1,15 @@
+import std.io
+
+main():
+	test = 5
+	writeln "Hello world"
+	
+	= 5
+
+// Comments
+/*
+control blocks
+instruction blocks
+assignment blocks
+special blocks
+*/
