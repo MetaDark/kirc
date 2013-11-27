@@ -1,0 +1,8 @@
+# Comment
+import "test"
+
+main(args):
+	arst = 5
+	writeln "Hello World"
+	
+	arst()

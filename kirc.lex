@@ -1,16 +1,15 @@
 %{
 #include <stdio.h>
 #include "kirc.y.h"
-
-int lineno = 0;
-extern YYSTYPE yylval;
-
 %}
 
 %%
 
-"//".*                // Eat up the tasty one line comments
+"#".*                // Eat up the tasty one line comments
 
+exists                return EXISTS;
+
+import                return IMPORT;
 writeln               return WRITELN;
 
 [a-zA-Z][a-zA-Z0-9]*  yylval.string = strdup(yytext); return SYMBOL;
@@ -22,9 +21,9 @@ writeln               return WRITELN;
 \(                    return '(';
 \)                    return ')';
 
-\n                    lineno++;
+\n
 [ \t]+                // Ingore whitespace
 
-.			          fprintf(stderr, "[Line: %i]: Unexpected character '%c'\n", lineno, yytext[0]);
+.			          fprintf(stderr, "[Line: %i]: Unexpected character '%c'\n", yylineno, yytext[0]);
 
 %%
